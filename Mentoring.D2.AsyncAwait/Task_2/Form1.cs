@@ -91,7 +91,6 @@ namespace Task_2
                     return;
                 }
                 token.Cancel();
-                dgvDownloads[e.ColumnIndex, e.RowIndex].Value = string.Empty;
             }
         }
     }
