@@ -11,7 +11,7 @@ namespace Task_1
     {
         public class CusomTransform : ExpressionVisitor
         {
-            private readonly Dictionary<string, int> _replacements = new Dictionary<string, int>();
+            private Dictionary<string, int> _replacements = new Dictionary<string, int>();
 
             public CusomTransform(Dictionary<string, int> replacements)
             {
@@ -80,7 +80,7 @@ namespace Task_1
         [TestMethod]
         public void TransformTest()
         {
-            Expression<Func<int, int, int>> sourseExp = (a, b) => a + (a + 1) * (a + 5) * (a - 1) * (1 - a) + 1 + (b - 1) + (1 + b) / (1 - b);
+            Expression<Func<int, int, int>> sourseExp = (a, b) => a + ((a + 1) +1) * (a + 5) * (a - 1) * (1 - a) + 1 + ((b - 1)+1) + (1 + b) / (1 - b);
             var  dict = new Dictionary<string, int>{{ "a", 5 }};
             var resultExp = new CusomTransform(dict).VisitAndConvert(sourseExp, "");
 

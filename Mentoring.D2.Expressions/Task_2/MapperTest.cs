@@ -44,12 +44,16 @@ namespace Task_2
                 var propBindings = inputProps.Join(outputProps, 
                     inputProp => inputProp.Name, 
                     outputProp => outputProp.Name,
-                    (inputProp, outputProp) => Expression.Bind(outputProp, Expression.Property(param, inputProp)));
+                    (inputProp, outputProp) => new {inputProp, outputProp})
+                    .Where(a => a.inputProp.PropertyType == a.outputProp.PropertyType)
+                    .Select(a => Expression.Bind(a.outputProp, Expression.Property(param, a.inputProp)));
 
                 var fieldBindings = inputFields.Join(outputFields,
                     inputField => inputField.Name,
                     outputField => outputField.Name,
-                    (inputField, outputField) => Expression.Bind(outputField, Expression.Field(param, inputField)));
+                    (inputField, outputField) => new { inputField, outputField })
+                    .Where(a => a.inputField.FieldType == a.outputField.FieldType)
+                    .Select(a => Expression.Bind(a.outputField, Expression.Field(param, a.inputField)));
 
                 var allBindings = propBindings.Concat(fieldBindings);
 
@@ -72,7 +76,7 @@ namespace Task_2
         public class Bar
         {
             public string Field1;
-            public string Name { get; set; }
+            public int Name { get; set; }
             public int Age { get; set; }
             public string Other2 { get; set; }
 
