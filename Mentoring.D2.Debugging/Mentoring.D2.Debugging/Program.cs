@@ -20,7 +20,7 @@ namespace Mentoring.D2.Debugging
             }
             var bytes1 = netInterface.GetPhysicalAddress().GetAddressBytes();
             var bytes2 = BitConverter.GetBytes(DateTime.Now.Date.ToBinary());
-            var key = bytes1.Select((item, index) => (item ^ bytes2[index]) * 10);
+            var key = bytes1.Select((item, index) => (item ^ bytes2[index])).Select(item => item <= 999 ? item * 10 : item);
             Console.WriteLine(string.Join("-", key.Select(item => item.ToString())));
             Console.ReadKey();
         }
